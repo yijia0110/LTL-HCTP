@@ -1,0 +1,75 @@
+state_dim: ["UAV1","UAV2","UAV3"]
+state_models:
+  UAV1:
+    ts_type: "UAV1"
+    initial_state: "standby"
+    initial_position: "p1"
+    nodes:
+      standby:
+        connected_to:
+          loaded: "pick"
+      loaded:
+        connected_to:
+          standby: "drop"
+  UAV2:
+    ts_type: "UAV2"
+    initial_state: "standby"
+    initial_position: "p2"
+    nodes:
+      standby:
+        connected_to:
+          loaded: "pick"
+          training: "start_training"
+      loaded:
+        connected_to:
+          standby: "drop"
+      training:
+        connected_to:
+          standby: "terminate_training"
+  UAV3:
+    ts_type: "UAV3"
+    initial_state: "standby"
+    initial_position: "c4"
+    nodes:
+      standby:
+        connected_to:
+          training: "start_training"
+      training:
+        connected_to:
+          standby: "terminate_training"
+actions:
+  UAV1:
+    pick:
+      type: "pick"
+      guard: "p1"
+      weight: 10
+    drop:
+      type: "drop"
+      guard: "1"
+      weight: 10
+  UAV2:
+    pick:
+      type: "pick"
+      guard: "p1"
+      weight: 10
+    drop:
+      type: "drop"
+      guard: "1"
+      weight: 10
+    start_training:
+      type: "start_training"
+      guard: "c1"
+      weight: 10
+    terminate_training:
+      type: "terminate_training"
+      guard: "1"
+      weight: 10
+  UAV3:
+    start_training:
+      type: "start_training"
+      guard: "c1"
+      weight: 10
+    terminate_training:
+      type: "terminate_training"
+      guard: "1"
+      weight: 10

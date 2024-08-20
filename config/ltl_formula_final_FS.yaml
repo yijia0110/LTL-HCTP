@@ -1,0 +1,12 @@
+# 目前1.0版本的代码无法进行这么复杂的任务分配
+hard_task: "<>(c7 && standby) && []((!c7 && X c7) -> loaded) && <>(p1 && standby) 
+&& <>(c3 && standby) && []((!c3 && X c3) -> training) 
+&& <>(c9 && standby) && []((!c9 && X c9) -> training)
+&& <>(c9 && standby) && []((!c9 && X c9) -> training)"
+
+# hard_task: "<>(c7 && takeoff) && []((!c7 && X c7) -> patrol) && <>(p1 && standby) 
+# <>(x1 && takeoff) && []((!x1 && X x1) -> patrol) && <>(w1 && standby) 
+# && <>(s1 && takeoff) && []((!s2 && X s2) -> en)"
+
+soft_task: ""
+#G []始终; F <>将来某个时刻; X 下一时刻; -> 含义

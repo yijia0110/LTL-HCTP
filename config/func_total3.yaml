@@ -1,0 +1,76 @@
+state_dim: ["DR_load","A1_load","Wassi_state"]
+state_models:
+  DR_load:
+    ts_type: "DR_load"
+    initial_state: "standby"
+    initial_position: "p1"
+    nodes:
+      standby:
+        connected_to:
+          repaired: "repair"
+      repaired:
+        connected_to:
+          standby: "derepair"
+  A1_load:
+    ts_type: "A1_load"
+    initial_state: "standby"
+    initial_position: "p2"
+    nodes:
+      standby:
+        connected_to:
+          # loaded: "pick"
+          training: "start_training"
+      # loaded:
+      #   connected_to:
+      #     standby: "drop"
+      training:
+        connected_to:
+          standby: "terminate_training"
+  Wassi_state:
+    ts_type: "Wassi_state"
+    initial_state: "standby"
+    initial_position: "c4"
+    nodes:
+      standby:
+        connected_to:
+          training: "start_training"
+      training:
+        connected_to:
+          standby: "terminate_training"
+actions:
+  DR_load:
+    pick:
+      type: "pick"
+      guard: "p1"
+      weight: 10
+    drop:
+      type: "drop"
+      guard: "1"
+      weight: 10
+  A1_load:
+    # pick:
+    #   type: "pick"
+    #   guard: "c7"
+    #   weight: 10
+    # drop:
+    #   type: "drop"
+    #   guard: "1"
+    #   weight: 10
+    start_training:
+      type: "start_training"
+      guard: "c1"
+      weight: 10
+    terminate_training:
+      type: "terminate_training"
+      guard: "1"
+      weight: 10
+  Wassi_state:
+    start_training:
+      type: "start_training"
+      guard: "c1"
+      weight: 10
+    terminate_training:
+      type: "terminate_training"
+      guard: "1"
+      weight: 10
+

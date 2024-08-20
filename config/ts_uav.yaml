@@ -1,0 +1,397 @@
+# TS definitions are to be interpreted by the agent node. The LTL core planner only uses the node names, connections, weights, and action names to build its automaton.
+#
+# Possible TS types:
+#   3d_pose_region (3D pose [[x,y,z], [x,y,z,w]] with quaternion orientation)
+#   2d_pose_region (2D pose [[x,y], phi] with euler angle orientation)
+#   3d_point_region (3D point [x, y, z] without orientation)
+#   2d_point_region (2D point [x, y] without orientation)
+#   Uav_State
+#   p 可达点 b 障碍点
+
+state_dim: ["3d_pose_region", "Uav_State"]
+state_models:
+  3d_pose_region:
+    ts_type: "3d_pose_region"
+    initial: "p1"
+    nodes:
+      p1:
+        attr:
+          type: "square"
+          pose: [[8,-8,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p1: "stay"
+          p11: "goto_p11_from_p1"
+          p6: "goto_p6_from_p1"
+      p2:
+        attr:
+          type: "square"
+          pose: [[-9,2,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p2: "stay"
+          p10: "goto_p10_from_p2"
+      p3:
+        attr:
+          type: "square"
+          pose: [[-8,-9,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p3: "stay"
+          p5: "goto_p5_from_p3"
+      p4:
+        attr:
+          type: "square"
+          pose: [[9,9,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p4: "stay"
+          p12: "goto_p12_from_p4"
+      p5:
+        attr:
+          type: "square"
+          pose: [[-4,-2,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p5: "stay"
+          p3: "goto_p3_from_p5"
+          p6: "goto_p6_from_p5"
+      p6:
+        attr:
+          type: "square"
+          pose: [[-2,-8,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p6: "stay"
+          p1: "goto_p1_from_p6"
+          p5: "goto_p5_from_p6"
+          p7: "goto_p7_from_p6"
+      p7:
+        attr:
+          type: "square"
+          pose: [[1,1,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p7: "stay"
+          p6: "goto_p6_from_p7"
+          p9: "goto_p9_from_p7"
+          p10: "goto_p10_from_p7"
+          p11: "goto_p11_from_p7"
+          p12: "goto_p12_from_p7"
+      p8:
+        attr:
+          type: "square"
+          pose: [[9,-4,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p8: "stay"
+          p9: "goto_p9_from_p8"
+      p9:
+        attr:
+          type: "square"
+          pose: [[5,4,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p9: "stay"
+          p7: "goto_p7_from_p9"
+          p8: "goto_p8_from_p9"
+      p10:
+        attr:
+          type: "square"
+          pose: [[-5,8,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p10: "stay"
+          p2: "goto_p2_from_p10"
+          p7: "goto_p7_from_p10"
+      p11:
+        attr:
+          type: "square"
+          pose: [[1,-8,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p11: "stay"
+          p1: "goto_p1_from_p11"
+          p6: "goto_p6_from_p11"
+          p7: "goto_p7_from_p11"
+      p12:
+        attr:
+          type: "square"
+          pose: [[1,9,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          p12: "stay"
+          p7: "goto_p7_from_p12"
+          p4: "goto_p4_from_p12"
+
+      b1:
+        attr:
+          type: "square"
+          pose: [[-4,-6,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          b1: "stay"
+      b2:
+        attr:
+          type: "square"
+          pose: [[7,-6,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          b2: "stay"
+      b3:
+        attr:
+          type: "square"
+          pose: [[3,6,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          b3: "stay"
+      b4:
+        attr:
+          type: "square"
+          pose: [[-6,3,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          b4: "stay"
+      b5:
+        attr:
+          type: "square"
+          pose: [[-2,-1,2], [0,0,0,1]]
+          length: 2
+          hysteresis: 0.05
+        connected_to:
+          b5: "stay"
+
+  Uav_State:
+    ts_type: "Uav_State"
+    initial: "standby"
+    nodes:
+      standby:
+        connected_to:
+          loaded: "pick"
+          # training: "start_training"
+      loaded:
+        connected_to:
+          standby: "drop"
+      # training:
+      #   connected_to:
+      #     standby: "terminate_training"
+
+actions:
+  goto_p7_from_p11:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p7
+      pose: [[1,1,2], [0,0,0,1]]
+  goto_p6_from_p1:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p6
+      pose: [[-2,-8,2], [0,0,0,1]]
+  goto_p10_from_p2:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p10
+      pose: [[-5,8,2], [0,0,0,1]]
+  goto_p5_from_p3:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p5
+      pose: [[-4,-2,2], [0,0,0,1]]
+  goto_p3_from_p5:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p3
+      pose: [[-8,-9,2], [0,0,0,1]]
+  goto_p6_from_p5:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p6
+      pose: [[-2,-8,2], [0,0,0,1]]
+  goto_p1_from_p6:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p1
+      pose: [[8,-8,2], [0,0,0,1]]
+  goto_p5_from_p6:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p5
+      pose: [[-4,-2,2], [0,0,0,1]]
+  goto_p7_from_p6:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p7
+      pose: [[1,1,2], [0,0,0,1]]
+  goto_p1_from_p11:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p1
+      pose: [[8,-8,2], [0,0,0,1]]
+  goto_p6_from_p7:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p6
+      pose: [[-2,-8,2], [0,0,0,1]]
+  goto_p9_from_p7:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p9
+      pose: [[5,4,2], [0,0,0,1]]
+  goto_p10_from_p7:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p10
+      pose: [[-5,8,2], [0,0,0,1]]
+  goto_p7_from_p9:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p7
+      pose: [[1,1,2], [0,0,0,1]]
+  goto_p9_from_p8:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p9
+      pose: [[5,4,2], [0,0,0,1]]
+  goto_p8_from_p9:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p8
+      pose: [[9,-4,2], [0,0,0,1]]
+  goto_p2_from_p10:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p2
+      pose: [[-9,2,2], [0,0,0,1]]
+  goto_p7_from_p10:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p7
+      pose: [[1,1,2], [0,0,0,1]]
+  goto_p6_from_p11:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p6
+      pose: [[-2,-8,2], [0,0,0,1]]
+  goto_p11_from_p1:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p11
+      pose: [[1,-8,2], [0,0,0,1]]
+  goto_p11_from_p7:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p11
+      pose: [[1,-8,2], [0,0,0,1]]
+  goto_p7_from_p12:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p7
+      pose: [[1,1,2], [0,0,0,1]]
+  goto_p4_from_p12:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p4
+      pose: [[9,9,2], [0,0,0,1]]
+  goto_p12_from_p4:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p12
+      pose: [[1,9,2], [0,0,0,1]]
+  goto_p12_from_p7:
+    type: "move"
+    weight: 10
+    guard: "1"
+    attr:
+      region: p12
+      pose: [[1,9,2], [0,0,0,1]]
+  stay:
+    type: "stay"
+    guard: "1"
+    weight: 0.01
+
+  synchronized_transition:
+    type: "stay"
+    guard: "1"
+    weight: 0
+  pick:
+    type: "pick"
+    guard: "p9"
+    weight: 10
+  drop:
+    type: "drop"
+    guard: "1"
+    weight: 10
+  # start_training:
+  #   type: "start_training"
+  #   guard: "c1"
+  #   weight: 10
+  # terminate_training:
+  #   type: "terminate_training"
+  #   guard: "1"
+  #   weight: 10
+
+

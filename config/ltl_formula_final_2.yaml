@@ -1,0 +1,27 @@
+# hard_task: "([]<> (r1 && stand)) && ([]<> (r1 && unloaded))"
+# soft_task: ""
+# hard_task: "<>(desk && default && X((carrybin U dispose) && <>default)) && <>r3"
+#hard_task: "(<> s2) && (<> s3) && (<> s4) && (<>(s5 && <>s1))"
+# hard_task: "<>(s3 && <>(s4 && <>(s2 && <>(s5 && <>s1))))"
+#hard_task: "<>s1 && <>s2 && <>s3 && <>s4 && <>s5 && [](s->e) && [](e->!a)"
+#hard_task: "<>(r1 && <>(r2 && <>r3)) && <>r4"
+# hard_task: "<>r1 && <>r2 && <>r3 && <>r4"
+#hard_task: "<>(c7 && training && <>(c6 && training && <> (c7 && training && <>(p4 && standby)))) && []((!p4 && X p4) -> training) && "
+# hard_task: "<>(p6 && standby) && []((!p6 && X p6) -> loaded) && <>(p3 && standby) && []((!p3 && X p3) -> loaded)"
+#hospital初始
+#将药物运送到p3和p6位置；在c1与患者会面；沿着c1和c6之间的走廊完成步行训练，然后将患者送回p4
+# hard_task: "<>(c7 && training && <>(c6 && training && <> (c7 && training && <>(p4 && standby)))) && []((!p4 && X p4) -> training) && <>(p6 && standby) && []((!p6 && X p6) -> loaded) && <>(p3 && standby) && []((!p3 && X p3) -> loaded)"
+# 某无人机在初始地点拿货，然后在c1卸货，然后另一个无人机去c1拿货，当c1的货物清空时，最后一个无人机在c1进行训练
+# 目前1.0版本的代码无法进行这么复杂的任务分配
+hard_task: "<>(c7 && standby) && []((!c7 && X c7) -> loaded) && <>(p1 && standby) && <>(c3 && standby) && []((!c3 && X c3) -> training) && <>(c9 && standby) && []((!c9 && X c9) -> training)"
+#hospital自己改得
+# hard_task: "<>(p3 && standby) && []((!p3 && X p3) -> loaded) && <>(p6 && standby) && []((!p6 && X p6) -> loaded) && <>(p4 && standby) && []((!p4 && X p4) -> training) && <>(c1 && training && <>(c7 && training && <>(c6 && training && <>(c7 && training && <>(c1 && training)))))"
+#hospital修改目的地
+# hard_task: "<>(p3 && standby) && []((!p3 && X p3) -> loaded) && <>(c2 && standby) && []((!c2 && X c2) -> loaded) && <>(p4 && standby) && []((!p4 && X p4) -> training) && <>(c1 && training && <>(c7 && training && <>(c6 && training && <>(c7 && training && <>(c1 && training)))))"
+# hard_task: "[] ( s ->  ( X e ) )"
+#hard_task: "<>(p6 && standby) && []((!p6 && X p6) -> loaded) && <>(p10 && standby) && []((!p10 && X p10) -> loaded) && <>(p4 && standby) && []((!p4 && X p4) -> loaded)"
+#&& (p10 && patrol && <>(p7 && patrol && <>(p10 && patrol))) && []((!p2 && X p2) -> patrol) && <>(p2 && standby)"
+#&& "<>(p5 && standby) && []((!p5 && X p5) -> loaded)
+#&& <>(p8 && standby) && []((!p8 && X p8) -> loaded)"
+soft_task: ""
+#G []始终; F <>将来某个时刻; X 下一时刻; -> 含义
